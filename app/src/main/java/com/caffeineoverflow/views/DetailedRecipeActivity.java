@@ -2,6 +2,7 @@ package com.caffeineoverflow.views;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,6 +14,7 @@ import com.caffeineoverflow.R;
 import com.caffeineoverflow.models.DetailedRecipe;
 import com.caffeineoverflow.repositories.service.api.DetailedRecipeApiService;
 import com.caffeineoverflow.models.Ingredient;
+import com.caffeineoverflow.services.DownloadService;
 import com.caffeineoverflow.utils.IngridentListAdapter;
 import com.caffeineoverflow.utils.OnIngredientClickListener;
 
@@ -94,6 +96,25 @@ public class DetailedRecipeActivity extends AppCompatActivity {
                 System.out.println("DetailedRecipe API call fails");
             }
         });
+    }
+
+    public void download(View view){
+        StringBuilder ingredientString = new StringBuilder();
+        String instructions = detailedRecipe.getInstructions();
+        String title = detailedRecipe.getTitle();
+        ingredientString.append("Ingredients");
+        ingredientString.append("\n");
+        for(Ingredient ingredient:detailedRecipe.getExtendedIngredients()){
+            ingredientString.append(ingredient.getName()+ "("+ingredient.getAmount()+" "+ingredient.getUnit()+")");
+            ingredientString.append("\n");
+        }
+        Intent intent = new Intent(this, DownloadService.class);
+        intent.putExtra("instructions",instructions);
+        intent.putExtra("title",title);
+        intent.putExtra("ingredients",ingredientString.toString());
+
+        startService(intent);
+
     }
 
 }

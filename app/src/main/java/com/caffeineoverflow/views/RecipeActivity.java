@@ -1,6 +1,7 @@
 package com.caffeineoverflow.views;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -14,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.caffeineoverflow.R;
+import com.caffeineoverflow.repositories.service.database.DatabaseHelper;
 import com.caffeineoverflow.utils.OnItemClickListener;
 import com.caffeineoverflow.repositories.service.api.RecipeApiService;
 import com.caffeineoverflow.models.Result;
@@ -50,6 +52,7 @@ public class RecipeActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.rvRecipeList);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
 
         Intent intent = getIntent();
         String eventName = intent.getStringExtra("eventName");
